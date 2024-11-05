@@ -13,15 +13,6 @@ const FirebaseProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  // const logout = async () => {
-  //   try {
-  //     await auth.signOut();
-  //     setUser(null);
-  //   } catch (error) {
-  //     console.error("Logout error:", error);
-  //   }
-  // };
-
   return (
     <FirebaseContext.Provider value={{ user, auth }}>
       {children}

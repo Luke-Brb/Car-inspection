@@ -203,7 +203,6 @@ function DataBase() {
           </Row>
           <hr></hr>
           <button onClick={() => auth.signOut()}>Logout</button>
-          {/* <button onClick={handleLogout}>Logout</button> */}
         </Container>
       </div>
     </>
