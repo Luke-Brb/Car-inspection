@@ -1,19 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   return (
     <div>
       <nav className="navbar navbar-dark bg-dark">
-        <div className="container-fluid justify-content-center">
-          <h1 className="navbar-brand mb-2 fs-2">
-            <strong>Car inspection</strong>
-          </h1>
-          <p>
-            <Link to="/Login">Login</Link>
-          </p>
-          <br></br>
-          <Link to="/DataBase">DataBase</Link>
+        <div className="container-fluid d-flex align-items-center">
+          <div className="me-0" style={{ paddingLeft: "5px" }}>
+            <p className="text-primary mb-0" style={{ whiteSpace: "nowrap" }}>
+              Welcome, {user ? user.email : "please login"}
+            </p>
+          </div>
+          <div className="flex-grow-1 text-center">
+            <h1 className="navbar-brand mb-0 fs-2">
+              <strong>Car Inspection</strong>
+            </h1>
+          </div>
         </div>
       </nav>
     </div>

@@ -1,18 +1,37 @@
-import React, { useState, useContext } from "react";
-import { FirebaseContext } from "../FirebaseContext";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebaseInit";
 import Navbar from "../components/Navbar";
 
 function Dashboard() {
-  const { user, logout } = useContext(FirebaseContext);
   const navigate = useNavigate();
+
+  function handleNavigate() {
+    navigate("/login");
+  }
+
   return (
-    <div>
+    <>
       <Navbar />
-      <h1>Dashboard</h1>
-      <button onClick={() => auth.signOut()}>Logout</button>
-    </div>
+      <div className="container mt-5">
+        <div className="row justify-content-center">
+          <div className="col-sm-5 col-md-4 col-lg-3">
+            <div
+              id="homePage"
+              className="container shadow-lg p-3 mb-5 bg-white rounded border border-dark"
+            >
+              <h5 className="mt-1 mb-4 pb-5 text-center">Welcome</h5>
+              <p>contact: barbu.lucian@gmail.com</p>
+              <button
+                className="btn border-dark btn-sm me-2"
+                onClick={handleNavigate}
+              >
+                Register / Login
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 
