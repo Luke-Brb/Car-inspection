@@ -14,7 +14,7 @@ import {
 import { format } from "date-fns";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function DataBase() {
+function FirebaseData() {
   const { user, logout } = useContext(FirebaseContext);
 
   const [vinNumber, setVinNumber] = useState("");
@@ -77,6 +77,7 @@ function DataBase() {
       collection(db, "vin_number"),
       where("userId", "==", user.uid)
     );
+
     const querySnapshot = await getDocs(filterdQuery);
     const documents = querySnapshot.docs.map((doc) => ({
       id: doc.id,
@@ -294,4 +295,4 @@ function DataBase() {
   );
 }
 
-export default DataBase;
+export default FirebaseData;

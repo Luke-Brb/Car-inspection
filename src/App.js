@@ -1,18 +1,17 @@
-import React, { useContext } from "react";
+import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { FirebaseContext } from "./FirebaseContext";
-import RegisterLogin from "./routes/RegisterLogin";
-import DataBase from "./routes/DataBase";
+import Login from "./routes/Login";
+import Register from "./routes/Register";
+import FirebaseData from "./routes/FirebaseData";
 import Dashboard from "./routes/Dashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-  const { user } = useContext(FirebaseContext);
-
   const router = createBrowserRouter([
     { path: "/", element: <Dashboard /> },
-    { path: "/login", element: <RegisterLogin /> },
-    { path: "/database", element: <DataBase /> },
+    { path: "/register", element: <Register /> },
+    { path: "/login", element: <Login /> },
+    { path: "/firebasedata", element: <FirebaseData /> },
   ]);
 
   return <RouterProvider router={router} />;

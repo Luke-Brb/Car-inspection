@@ -1,17 +1,11 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { FirebaseContext, firebaseApp } from "../FirebaseContext";
+import { FirebaseContext } from "../FirebaseContext";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-function RegisterLogin() {
+function Register() {
   const { user, auth } = useContext(FirebaseContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,32 +19,15 @@ function RegisterLogin() {
         password
       );
       const user = userCredential.user;
-      console.log("User  registered successfully:", user);
-    } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log("Error registering user:", errorCode, errorMessage);
-    }
-  }
-
-  async function login() {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      const user = userCredential.user;
       if (user) {
-        navigate("/database");
-      } else {
-        setError("Invalid email or password");
+        navigate("/firebasedata");
       }
     } catch (error) {
       const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log("Error logging in user:", errorCode, errorMessage);
+      console.log("Error registering user -> errorCode:", errorCode);
+      if (errorCode == "auth/email-already-in-use") {
+        navigate("/login");
+      }
     }
   }
 
@@ -61,10 +38,10 @@ function RegisterLogin() {
         <div className="row justify-content-center">
           <div className="col-sm-5 col-md-4 col-lg-3">
             <div
-              id="registerRegisterLogin"
+              id="register"
               className="container shadow-lg p-3 mb-5 bg-white rounded border border-dark"
             >
-              <h5 className="mt-1 mb-4 pb-5 text-center">Register / Login</h5>
+              <h5 className="mt-1 mb-4 pb-5 text-center">Register</h5>
               <div className="row">
                 <div className="col-12">
                   <input
@@ -89,12 +66,6 @@ function RegisterLogin() {
                   >
                     Register
                   </button>
-                  <button
-                    className="btn border-dark btn-sm me-2"
-                    onClick={login}
-                  >
-                    Login
-                  </button>
                 </div>
               </div>
             </div>
@@ -105,4 +76,4 @@ function RegisterLogin() {
   );
 }
 
-export default RegisterLogin;
+export default Register;
