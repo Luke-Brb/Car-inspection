@@ -5,9 +5,9 @@ import Navbar from "../components/Navbar";
 function Dashboard() {
   const navigate = useNavigate();
 
-  function handleNavigate() {
+  const handleNavigate = () => {
     navigate("/login");
-  }
+  };
 
   return (
     <>

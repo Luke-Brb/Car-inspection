@@ -1,21 +1,19 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { FirebaseContext, auth } from "../FirebaseContext";
-import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-  serverTimestamp,
-} from "firebase/firestore";
+  handleSubmit,
+  handleList,
+  deleteList,
+  handleLogout,
+} from "./APIConnector";
+import Navbar from "../components/Navbar";
 import { format } from "date-fns";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function FirebaseData() {
-  const { user, logout } = useContext(FirebaseContext);
+  const { user } = useContext(FirebaseContext);
+  const navigate = useNavigate();
 
   const [vinNumber, setVinNumber] = useState("");
   const [brand, setBrand] = useState("");
@@ -34,62 +32,49 @@ function FirebaseData() {
   const [engineOil, setEngineOil] = useState("");
   const [gearboxOil, setGearboxOil] = useState("");
   const [transferCaseOil, setTransferCaseOil] = useState("");
-  const navigate = useNavigate();
+  const [documents, setDocuments] = useState([]);
 
-  async function handleSubmit(e) {
+  const submitData = async (e) => {
     e.preventDefault();
-    const db = getFirestore();
-    const vinNumberCollection = collection(db, "vin_number");
-    const newDoc = await addDoc(vinNumberCollection, {
-      vin_number: { vinNumber },
-      carType: {
+    if (user && user.uid) {
+      await handleSubmit(
+        vinNumber,
         brand,
         model,
         mileage,
-      },
-      filters: {
         cabinAirFilter,
         engineAirFilter,
         engineOilFilter,
         fuelFilter,
         gearboxOilFilter,
         transferCaseFilter,
-      },
-      miscellaneous: {
         observations,
-      },
-      oils: {
         engineOil,
         gearboxOil,
         transferCaseOil,
-      },
-      userId: user.uid,
-      createdAt: serverTimestamp(),
-    });
-  }
+        user
+      );
+    } else {
+      console.error("User  is not authenticated.");
+    }
+  };
 
-  const [documents, setDocuments] = useState([]);
+  const listData = async () => {
+    if (user && user.uid) {
+      await handleList(user, setDocuments);
+    } else {
+      console.error("User undefined.");
+    }
+  };
 
-  async function handleList(e) {
-    e.preventDefault();
-    const db = getFirestore();
-    const filterdQuery = query(
-      collection(db, "vin_number"),
-      where("userId", "==", user.uid)
-    );
+  const logout = () => {
+    handleLogout(navigate);
+  };
 
-    const querySnapshot = await getDocs(filterdQuery);
-    const documents = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setDocuments(documents);
-  }
-
-  function handleLogout() {
-    auth.signOut();
-    navigate("/login");
-  }
+  const deleteRecord = async (docId) => {
+    deleteList(docId);
+    listData();
+  };
 
   return (
     <>
@@ -228,21 +213,21 @@ function FirebaseData() {
                     <button
                       type="button"
                       className="bg-info text-dark btn btn-secondary btn-sm me-2"
-                      onClick={handleSubmit}
+                      onClick={submitData}
                     >
                       Save Data
                     </button>
                     <button
                       type="button"
                       className="bg-info-subtle text-info-emphasis btn btn-secondary btn-sm"
-                      onClick={handleList}
+                      onClick={listData}
                     >
                       Saved lists
                     </button>
                   </div>
                   <button
                     className="bg-warning text-dark btn btn-secondary btn-sm"
-                    onClick={handleLogout}
+                    onClick={logout}
                   >
                     Logout
                   </button>
@@ -286,6 +271,14 @@ function FirebaseData() {
                   <p>Gearbox Oil: {doc.oils.gearboxOil}</p>
                   <p>Transfer Case Oil: {doc.oils.transferCaseOil}</p>
                 </div>
+              </div>
+              <div className="text-end">
+                <button
+                  className="bg-danger text-dark btn btn-secondary btn-sm"
+                  onClick={() => deleteRecord(doc.id)}
+                >
+                  Delete data
+                </button>
               </div>
             </div>
           ))}
