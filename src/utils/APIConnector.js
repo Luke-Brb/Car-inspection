@@ -64,8 +64,8 @@ export async function handleList(user, setDocuments) {
   const db = getFirestore();
   const filterdQuery = query(
     collection(db, "vin_number"),
-    orderBy("createdAt"),
-    where("userId", "==", user.uid)
+    where("userId", "==", user.uid),
+    orderBy("createdAt", "desc")
   );
 
   const querySnapshot = await getDocs(filterdQuery);
