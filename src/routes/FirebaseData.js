@@ -6,7 +6,7 @@ import {
   handleList,
   deleteList,
   handleLogout,
-} from "./APIConnector";
+} from "../utils/APIConnector";
 import Navbar from "../components/Navbar";
 import { format } from "date-fns";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -34,7 +34,7 @@ function FirebaseData() {
   const [transferCaseOil, setTransferCaseOil] = useState("");
   const [documents, setDocuments] = useState([]);
 
-  const submitData = async (e) => {
+  async function submitData(e) {
     e.preventDefault();
     if (user && user.uid) {
       await handleSubmit(
@@ -54,27 +54,42 @@ function FirebaseData() {
         transferCaseOil,
         user
       );
+
+      setVinNumber("");
+      setBrand("");
+      setModel("");
+      setMileage("");
+      setCabinAirFilter("");
+      setEngineAirFilter("");
+      setEngineOilFilter("");
+      setFuelFilter("");
+      setGearboxOilFilter("");
+      setTransferCaseFilter("");
+      setObservations("");
+      setEngineOil("");
+      setGearboxOil("");
+      setTransferCaseOil("");
     } else {
       console.error("User  is not authenticated.");
     }
-  };
+  }
 
-  const listData = async () => {
+  async function listData() {
     if (user && user.uid) {
       await handleList(user, setDocuments);
     } else {
       console.error("User undefined.");
     }
-  };
+  }
 
-  const logout = () => {
+  function logout() {
     handleLogout(navigate);
-  };
+  }
 
-  const deleteRecord = async (docId) => {
+  async function deleteRecord(docId) {
     deleteList(docId);
     listData();
-  };
+  }
 
   return (
     <>
