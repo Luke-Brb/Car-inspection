@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
 import { FirebaseContext } from "../FirebaseContext";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
+import Navbar from "../components/Navbar";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Login() {
-  const { user, auth } = useContext(FirebaseContext);
+  const { user, auth, db } = useContext(FirebaseContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -19,7 +20,13 @@ function Login() {
         password
       );
       const user = userCredential.user;
-      if (user) {
+      const uid = user.uid;
+
+      // Check if the user is an admin
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (userDoc.exists() && userDoc.data().isAdmin) {
+        navigate("/dashboardadmin");
+      } else {
         navigate("/firebasedata");
       }
     } catch (error) {

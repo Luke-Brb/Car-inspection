@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
+import { FirebaseContext } from "../FirebaseContext";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { setDoc, doc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { FirebaseContext } from "../FirebaseContext";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 
 function Register() {
-  const { user, auth } = useContext(FirebaseContext);
+  const { user, auth, db } = useContext(FirebaseContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -19,9 +20,12 @@ function Register() {
         password
       );
       const user = userCredential.user;
-      if (user) {
-        navigate("/firebasedata");
-      }
+
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        isAdmin: false,
+      });
+      navigate("/firebasedata");
     } catch (error) {
       const errorCode = error.code;
       console.log("Error registering user -> errorCode:", errorCode);

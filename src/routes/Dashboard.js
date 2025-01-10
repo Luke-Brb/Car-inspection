@@ -14,7 +14,7 @@ function Dashboard() {
       <Navbar />
       <div className="container mt-5">
         <div className="row justify-content-center">
-          <div className="col-sm-5 col-md-4 col-lg-3">
+          <div className="justify-content-center col-sm-5 col-md-4 col-lg-3">
             <div
               id="homePage"
               className="container shadow-lg p-3 mb-5 bg-white rounded border border-dark"
@@ -22,7 +22,7 @@ function Dashboard() {
               <h5 className="mt-1 mb-4 pb-5 text-center">Welcome</h5>
               <p>contact: barbu.lucian@gmail.com</p>
               <button
-                className="btn border-dark btn-sm me-2"
+                className="btn border-dark me-2 btn-sm"
                 onClick={handleNavigate}
               >
                 Register / Login

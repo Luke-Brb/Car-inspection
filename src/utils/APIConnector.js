@@ -32,32 +32,36 @@ export async function handleSubmit(
 ) {
   const db = getFirestore();
   const vinNumberCollection = collection(db, "vin_number");
-  const newDoc = await addDoc(vinNumberCollection, {
-    vin_number: { vinNumber },
-    carType: {
-      brand,
-      model,
-      mileage,
-    },
-    filters: {
-      cabinAirFilter,
-      engineAirFilter,
-      engineOilFilter,
-      fuelFilter,
-      gearboxOilFilter,
-      transferCaseFilter,
-    },
-    miscellaneous: {
-      observations,
-    },
-    oils: {
-      engineOil,
-      gearboxOil,
-      transferCaseOil,
-    },
-    userId: user.uid,
-    createdAt: serverTimestamp(),
-  });
+  try {
+    const newDoc = await addDoc(vinNumberCollection, {
+      vin_number: { vinNumber },
+      carType: {
+        brand,
+        model,
+        mileage,
+      },
+      filters: {
+        cabinAirFilter,
+        engineAirFilter,
+        engineOilFilter,
+        fuelFilter,
+        gearboxOilFilter,
+        transferCaseFilter,
+      },
+      miscellaneous: {
+        observations,
+      },
+      oils: {
+        engineOil,
+        gearboxOil,
+        transferCaseOil,
+      },
+      userId: user.uid,
+      createdAt: serverTimestamp(),
+    });
+  } catch (error) {
+    console.error("Error saving data:", error);
+  }
 }
 
 export async function handleList(user, setDocuments) {

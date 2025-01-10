@@ -37,40 +37,44 @@ function FirebaseData() {
   async function submitData(e) {
     e.preventDefault();
     if (user && user.uid) {
-      await handleSubmit(
-        vinNumber,
-        brand,
-        model,
-        mileage,
-        cabinAirFilter,
-        engineAirFilter,
-        engineOilFilter,
-        fuelFilter,
-        gearboxOilFilter,
-        transferCaseFilter,
-        observations,
-        engineOil,
-        gearboxOil,
-        transferCaseOil,
-        user
-      );
+      try {
+        await handleSubmit(
+          vinNumber,
+          brand,
+          model,
+          mileage,
+          cabinAirFilter,
+          engineAirFilter,
+          engineOilFilter,
+          fuelFilter,
+          gearboxOilFilter,
+          transferCaseFilter,
+          observations,
+          engineOil,
+          gearboxOil,
+          transferCaseOil,
+          user
+        );
 
-      setVinNumber("");
-      setBrand("");
-      setModel("");
-      setMileage("");
-      setCabinAirFilter("");
-      setEngineAirFilter("");
-      setEngineOilFilter("");
-      setFuelFilter("");
-      setGearboxOilFilter("");
-      setTransferCaseFilter("");
-      setObservations("");
-      setEngineOil("");
-      setGearboxOil("");
-      setTransferCaseOil("");
+        setVinNumber("");
+        setBrand("");
+        setModel("");
+        setMileage("");
+        setCabinAirFilter("");
+        setEngineAirFilter("");
+        setEngineOilFilter("");
+        setFuelFilter("");
+        setGearboxOilFilter("");
+        setTransferCaseFilter("");
+        setObservations("");
+        setEngineOil("");
+        setGearboxOil("");
+        setTransferCaseOil("");
+      } catch (error) {
+        console.error("Error saving data:", error);
+      }
     } else {
-      console.error("User  is not authenticated.");
+      console.error("User is not authenticated.");
     }
   }
 

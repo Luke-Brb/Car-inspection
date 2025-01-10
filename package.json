@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "react-scripts start"
+    "start": "concurrently \"npm run start-client\" \"npm run start-server\"",
+    "start-client": "react-scripts start",
+    "start-server": "node ./firebase-admin-backend/server.js"
   },
   "keywords": [],
   "author": "",
@@ -33,5 +35,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }
