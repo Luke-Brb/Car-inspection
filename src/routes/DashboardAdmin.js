@@ -38,7 +38,6 @@ function DashboardAdmin() {
     try {
       const userRef = doc(db, "users", uid);
       await updateDoc(userRef, { isAdmin });
-
       setUsers((prevUsers) =>
         prevUsers.map((user) => (user.id === uid ? { ...user, isAdmin } : user))
       );
