@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { getFunctions, httpsCallable } from "firebase/functions";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDwYuMsDLJe7uKxunJc2OasfTcYiN5XgKY",
