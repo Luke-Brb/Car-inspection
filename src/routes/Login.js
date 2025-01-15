@@ -25,9 +25,9 @@ function Login() {
       // Check if the user is an admin
       const userDoc = await getDoc(doc(db, "users", user.uid));
       if (userDoc.exists() && userDoc.data().isAdmin) {
-        navigate("/dashboardadmin");
+        navigate("/admin/dashboard");
       } else {
-        navigate("/firebasedata");
+        navigate("/user/dataentry");
       }
     } catch (error) {
       const errorCode = error.code;

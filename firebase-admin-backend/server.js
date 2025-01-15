@@ -20,7 +20,7 @@ app.use(
 app.use(express.json());
 
 // Endpoint to delete a user
-app.delete("/users/:uid", async (req, res) => {
+app.delete("/api/users/:uid", async (req, res) => {
   const uid = req.params.uid;
   console.log("Received request to delete user:", uid); // Log the UID
   try {

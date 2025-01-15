@@ -25,7 +25,7 @@ function Register() {
         email: user.email,
         isAdmin: false,
       });
-      navigate("/firebasedata");
+      navigate("/user/dataentry");
     } catch (error) {
       const errorCode = error.code;
       console.log("Error registering user -> errorCode:", errorCode);
